@@ -1,0 +1,170 @@
+{
+  "meta": {
+    "title": "OpenE2EE — Transparency in Digital Communication",
+    "description": "Real-time auditing of RCS 3.0 and E2EE protocols. Prove that your communications are truly end-to-end encrypted."
+  },
+  "nav": {
+    "why": "Why?",
+    "how": "How It Works",
+    "matrix": "Transparency Matrix",
+    "news": "Updates",
+    "reports": "Reports",
+    "contact": "Contact",
+    "whitepaper": "Whitepaper"
+  },
+  "hero": {
+    "badge": "Protocol Verification Active",
+    "title": "The era of transparency in digital communication.",
+    "subtitle": "Real-time auditing of RCS 3.0 and E2EE protocols. Prove that your communications are truly end-to-end encrypted.",
+    "cta_primary": "Test Your Protocol",
+    "cta_secondary": "Read the Whitepaper",
+    "intro": "Communication platforms claim to be secure, but are they really? OpenE2EE verifies encryption integrity in your messaging traffic through passive network analysis methods."
+  },
+  "why": {
+    "label": "Problem & Solution",
+    "title": "Why OpenE2EE?",
+    "desc": "Independently verify the security promises of messaging applications.",
+    "problem": {
+      "title": "Problem: Black Box",
+      "text": "Messaging applications are a 'black box'. You cannot tell whether encryption has been compromised or whether packets are being decrypted at intermediary servers.",
+      "code": "// Message path unknown\nclient_a → [???] → server → [???] → client_b\n// MitM risk invisible\n// Metadata leakage unmeasurable"
+    },
+    "solution": {
+      "title": "Solution: Passive Observer",
+      "text": "OpenE2EE audits packet header analysis, TLS handshake processes, and encryption entropy as a passive observer. It doesn't read your data — it only verifies.",
+      "code": "// OpenE2EE analysis engine\ntls.fingerprint()  → protocol consistency ✓\nheader.inspect()   → metadata audit      ✓\nentropy.measure()  → encryption strength  ✓"
+    }
+  },
+  "how": {
+    "label": "Technical Process",
+    "title": "How does it work?",
+    "desc": "Our three-stage passive analysis process.",
+    "steps": [
+      {
+        "title": "TLS Fingerprinting",
+        "text": "We verify protocol consistency by analyzing client and server fingerprints during the TLS handshake process. JA3/JA3S hashes are compared against known secure profiles.",
+        "code": "// TLS Fingerprint Analysis\nconst ja3 = tls.clientHello({\n  version: 'TLS 1.3',\n  ciphers: [\n    'TLS_AES_256_GCM_SHA384',\n    'TLS_CHACHA20_POLY1305'\n  ],\n  extensions: ['SNI', 'ALPN']\n});\nverify(ja3.hash);"
+      },
+      {
+        "title": "Header & Metadata Audit",
+        "text": "We inspect packet headers and metadata to verify whether encryption layers are properly implemented.",
+        "code": "// Header Analysis\nconst headers = packet.inspect({\n  layer: 'application',\n  fields: [\n    'content-type',\n    'x-encryption-key-id',\n    'x-mls-group-id'\n  ]\n});\nassert(headers.encrypted);"
+      },
+      {
+        "title": "Protocol Validation",
+        "text": "We evaluate encryption strength through RCS/MLS compatibility checks and entropy measurement. Shannon entropy values prove that encryption is genuinely applied.",
+        "code": "// Entropy Measurement\nconst entropy = crypto.shannon(\n  payload.bytes\n);\n// High entropy = strong encryption\n// entropy > 7.9 → ✓ verified\n// entropy < 6.0 → ⚠ caution\nresult: entropy = 7.94 → ✓"
+      }
+    ]
+  },
+  "matrix": {
+    "label": "Comparison",
+    "title": "Transparency matrix",
+    "desc": "Protocol security assessment of popular messaging applications.",
+    "headers": {
+      "app": "Application",
+      "protocol": "Protocol",
+      "integrity": "Encryption Integrity",
+      "status": "Status"
+    },
+    "rows": [
+      { "app": "Signal", "protocol": "Signal Protocol", "integrity": 98, "integrityLabel": "Very High", "status": "verified", "statusLabel": "Verified" },
+      { "app": "WhatsApp", "protocol": "Signal / MLS", "integrity": 88, "integrityLabel": "High", "status": "verified", "statusLabel": "Verified" },
+      { "app": "iMessage", "protocol": "iMessage E2EE", "integrity": 85, "integrityLabel": "High", "status": "verified", "statusLabel": "Verified" },
+      { "app": "RCS (Google)", "protocol": "MLS", "integrity": 92, "integrityLabel": "Very High", "status": "pending", "statusLabel": "Verifying" },
+      { "app": "Telegram", "protocol": "MTProto 2.0", "integrity": 55, "integrityLabel": "Medium", "status": "caution", "statusLabel": "Caution Outside Secret Chat" },
+      { "app": "RCS (Standard)", "protocol": "—", "integrity": 20, "integrityLabel": "Low", "status": "caution", "statusLabel": "No E2EE" }
+    ]
+  },
+  "news": {
+    "label": "Updates",
+    "title": "Latest developments",
+    "desc": "The most recent news and analyses in digital communication security.",
+    "articles": [
+      {
+        "date": "May 2026",
+        "tag": "RCS",
+        "title": "Apple Launches RCS E2EE Support with iOS 26.5",
+        "summary": "Apple enabled MLS-based end-to-end encryption under RCS Universal Profile 3.0 in the iOS 26.5 beta. Encrypted RCS messaging between Android and iPhone is now possible.",
+        "link": "#"
+      },
+      {
+        "date": "March 2025",
+        "tag": "GSMA",
+        "title": "GSMA Announces RCS Universal Profile 3.0",
+        "summary": "GSMA officially released the RCS 3.0 specification integrating the IETF-standard MLS protocol. This update provides forward secrecy and post-compromise security across the industry.",
+        "link": "#"
+      },
+      {
+        "date": "May 2026",
+        "tag": "WhatsApp",
+        "title": "WhatsApp Encryption Debates Continue",
+        "summary": "Lawsuits over WhatsApp's E2EE promises continue. While Meta defends content security with the Signal protocol, metadata collection practices are being criticized.",
+        "link": "#"
+      },
+      {
+        "date": "2025",
+        "tag": "Telegram",
+        "title": "Telegram MTProto: Default Encryption Deficiency",
+        "summary": "Security researchers reiterated that Telegram does not use E2EE in standard chats and only provides it in 'Secret Chat' mode.",
+        "link": "#"
+      },
+      {
+        "date": "2025",
+        "tag": "MLS",
+        "title": "IETF MLS Protocol Rises as Industry Standard",
+        "summary": "Messaging Layer Security (MLS) is being widely adopted as the IETF standard providing forward secrecy and post-compromise security for both one-to-one and group messaging.",
+        "link": "#"
+      },
+      {
+        "date": "2026",
+        "tag": "Security",
+        "title": "The E2EE Metadata Problem: Content is Safe, But What About Metadata?",
+        "summary": "While E2EE protects message content, metadata such as who talks to whom and when can still be collected, creating a significant privacy gap for users.",
+        "link": "#"
+      }
+    ]
+  },
+  "reports": {
+    "label": "Technical Documents",
+    "title": "Reports & whitepapers",
+    "desc": "Detailed technical analyses and security assessments.",
+    "items": [
+      {
+        "title": "RCS 3.0 and E2EE Security Standards",
+        "desc": "Integration of MLS protocol under RCS Universal Profile 3.0, security analysis, and compatibility assessment.",
+        "meta": "PDF · v1.0 · Coming Soon"
+      },
+      {
+        "title": "Messaging Protocols Comparison Report",
+        "desc": "Technical comparison of Signal Protocol, MTProto, MLS, and iMessage E2EE protocols.",
+        "meta": "PDF · v1.0 · Coming Soon"
+      }
+    ]
+  },
+  "contact": {
+    "label": "Contact",
+    "title": "Get in touch",
+    "desc": "For security researchers and corporate audit teams.",
+    "email": {
+      "title": "Email",
+      "text": "For general inquiries and collaborations.",
+      "link": "info@opene2ee.com"
+    },
+    "github": {
+      "title": "GitHub",
+      "text": "Our open source projects and contributing.",
+      "link": "github.com/opene2ee-com"
+    },
+    "security": {
+      "title": "Security Disclosure",
+      "text": "Responsible disclosure for vulnerabilities.",
+      "link": "security@opene2ee.com"
+    }
+  },
+  "footer": {
+    "copy": "© 2026 OpenE2EE. Released under the MIT License.",
+    "github": "GitHub",
+    "license": "MIT License"
+  }
+}
