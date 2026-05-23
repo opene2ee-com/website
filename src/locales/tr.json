@@ -1,0 +1,170 @@
+{
+  "meta": {
+    "title": "OpenE2EE — Dijital İletişimde Şeffaflık",
+    "description": "RCS 3.0 ve E2EE protokollerinin gerçek zamanlı denetimi. İletişiminizin gerçekten uçtan uca şifreli olup olmadığını kanıtlayın."
+  },
+  "nav": {
+    "why": "Neden?",
+    "how": "Nasıl Çalışır?",
+    "matrix": "Şeffaflık Matrisi",
+    "news": "Güncellemeler",
+    "reports": "Raporlar",
+    "contact": "İletişim",
+    "whitepaper": "Whitepaper"
+  },
+  "hero": {
+    "badge": "Protokol Doğrulama Aktif",
+    "title": "Dijital iletişimde şeffaflık çağı.",
+    "subtitle": "RCS 3.0 ve E2EE protokollerinin gerçek zamanlı denetimi. İletişiminizin gerçekten uçtan uca şifreli olup olmadığını kanıtlayın.",
+    "cta_primary": "Protokolünüzü Test Edin",
+    "cta_secondary": "Whitepaper'ı İnceleyin",
+    "intro": "İletişim platformları güvenli olduğunu iddia ediyor, peki ya gerçekte? OpenE2EE, pasif ağ analizi yöntemleriyle mesajlaşma trafiğinizdeki şifreleme bütünlüğünü doğrular."
+  },
+  "why": {
+    "label": "Problem & Çözüm",
+    "title": "Neden OpenE2EE?",
+    "desc": "Mesajlaşma uygulamalarının güvenlik vaatlerini bağımsız olarak doğrulayın.",
+    "problem": {
+      "title": "Problem: Kara Kutu",
+      "text": "Mesajlaşma uygulamaları bir 'kara kutu'dur. Şifrelemenin bozulup bozulmadığını veya paketlerin araya giren sunucularda açılıp açılmadığını anlayamazsınız.",
+      "code": "// Mesaj yolu belirsiz\nclient_a → [???] → server → [???] → client_b\n// MitM riski görünmez\n// Metadata sızıntısı ölçülemez"
+    },
+    "solution": {
+      "title": "Çözüm: Pasif Gözlemci",
+      "text": "OpenE2EE, paketlerin header analizlerini, TLS handshake süreçlerini ve şifreleme entropisini pasif bir gözlemci olarak denetler. Verilerinizi okumaz, sadece doğrular.",
+      "code": "// OpenE2EE analiz motoru\ntls.fingerprint()  → protokol tutarlılığı ✓\nheader.inspect()   → metadata denetimi ✓\nentropy.measure()  → şifreleme gücü   ✓"
+    }
+  },
+  "how": {
+    "label": "Teknik Süreç",
+    "title": "Nasıl çalışır?",
+    "desc": "Üç aşamalı pasif analiz sürecimiz.",
+    "steps": [
+      {
+        "title": "TLS Fingerprinting",
+        "text": "TLS handshake sürecindeki istemci ve sunucu parmak izlerini analiz ederek protokol tutarlılığını doğrularız. JA3/JA3S hash'leri ile bilinen güvenli profiller karşılaştırılır.",
+        "code": "// TLS Fingerprint Analizi\nconst ja3 = tls.clientHello({\n  version: 'TLS 1.3',\n  ciphers: [\n    'TLS_AES_256_GCM_SHA384',\n    'TLS_CHACHA20_POLY1305'\n  ],\n  extensions: ['SNI', 'ALPN']\n});\nverify(ja3.hash);"
+      },
+      {
+        "title": "Header & Metadata Denetimi",
+        "text": "Paket başlıklarını ve metadata bilgilerini inceleyerek şifreleme katmanlarının düzgün uygulanıp uygulanmadığını kontrol ederiz.",
+        "code": "// Header Analizi\nconst headers = packet.inspect({\n  layer: 'application',\n  fields: [\n    'content-type',\n    'x-encryption-key-id',\n    'x-mls-group-id'\n  ]\n});\nassert(headers.encrypted);"
+      },
+      {
+        "title": "Protokol Doğrulama",
+        "text": "RCS/MLS uyumluluk kontrolleri ve entropi ölçümü ile şifreleme gücünü değerlendiririz. Shannon entropi değerleri, şifrelemenin gerçekten uygulandığını kanıtlar.",
+        "code": "// Entropi Ölçümü\nconst entropy = crypto.shannon(\n  payload.bytes\n);\n// Yüksek entropi = güçlü şifreleme\n// entropy > 7.9 → ✓ onaylı\n// entropy < 6.0 → ⚠ dikkat\nresult: entropy = 7.94 → ✓"
+      }
+    ]
+  },
+  "matrix": {
+    "label": "Karşılaştırma",
+    "title": "Şeffaflık matrisi",
+    "desc": "Popüler mesajlaşma uygulamalarının protokol güvenlik değerlendirmesi.",
+    "headers": {
+      "app": "Uygulama",
+      "protocol": "Protokol",
+      "integrity": "Şifreleme Bütünlüğü",
+      "status": "Durum"
+    },
+    "rows": [
+      { "app": "Signal", "protocol": "Signal Protocol", "integrity": 98, "integrityLabel": "Çok Yüksek", "status": "verified", "statusLabel": "Onaylı" },
+      { "app": "WhatsApp", "protocol": "Signal / MLS", "integrity": 88, "integrityLabel": "Yüksek", "status": "verified", "statusLabel": "Onaylı" },
+      { "app": "iMessage", "protocol": "iMessage E2EE", "integrity": 85, "integrityLabel": "Yüksek", "status": "verified", "statusLabel": "Onaylı" },
+      { "app": "RCS (Google)", "protocol": "MLS", "integrity": 92, "integrityLabel": "Çok Yüksek", "status": "pending", "statusLabel": "Doğrulanıyor" },
+      { "app": "Telegram", "protocol": "MTProto 2.0", "integrity": 55, "integrityLabel": "Orta", "status": "caution", "statusLabel": "Secret Chat Harici Dikkat" },
+      { "app": "RCS (Standart)", "protocol": "—", "integrity": 20, "integrityLabel": "Düşük", "status": "caution", "statusLabel": "E2EE Yok" }
+    ]
+  },
+  "news": {
+    "label": "Güncellemeler",
+    "title": "Son gelişmeler",
+    "desc": "Dijital iletişim güvenliğindeki en güncel haberler ve analizler.",
+    "articles": [
+      {
+        "date": "Mayıs 2026",
+        "tag": "RCS",
+        "title": "Apple iOS 26.5 ile RCS E2EE Desteğini Başlattı",
+        "summary": "Apple, iOS 26.5 beta sürümünde RCS Universal Profile 3.0 kapsamında MLS tabanlı uçtan uca şifrelemeyi devreye aldı. Android ve iPhone arasında şifreli RCS mesajlaşma artık mümkün.",
+        "link": "#"
+      },
+      {
+        "date": "Mart 2025",
+        "tag": "GSMA",
+        "title": "GSMA, RCS Universal Profile 3.0'ı Duyurdu",
+        "summary": "GSMA, IETF standardı MLS protokolünü entegre eden RCS 3.0 spesifikasyonunu resmi olarak yayımladı. Forward secrecy ve post-compromise security sağlayan bu güncelleme, sektör genelinde benimseniyor.",
+        "link": "#"
+      },
+      {
+        "date": "Mayıs 2026",
+        "tag": "WhatsApp",
+        "title": "WhatsApp Şifreleme Tartışmaları Devam Ediyor",
+        "summary": "WhatsApp'ın uçtan uca şifreleme vaatleri konusunda açılan davalar sürüyor. Meta, Signal protokolü ile içerik güvenliğini savunurken, metadata toplama uygulamaları eleştiriliyor.",
+        "link": "#"
+      },
+      {
+        "date": "2025",
+        "tag": "Telegram",
+        "title": "Telegram MTProto: Varsayılan Şifreleme Eksikliği",
+        "summary": "Güvenlik araştırmacıları, Telegram'ın standart sohbetlerinde uçtan uca şifreleme kullanmadığını, yalnızca 'Gizli Sohbet' modunda E2EE sağladığını tekrar vurguladı.",
+        "link": "#"
+      },
+      {
+        "date": "2025",
+        "tag": "MLS",
+        "title": "IETF MLS Protokolü Endüstri Standardı Olarak Yükseliyor",
+        "summary": "Messaging Layer Security (MLS), hem birebir hem de grup mesajlaşmada forward secrecy ve post-compromise security sağlayan IETF standardı olarak geniş çapta benimseniyor.",
+        "link": "#"
+      },
+      {
+        "date": "2026",
+        "tag": "Güvenlik",
+        "title": "E2EE Metadata Sorunu: İçerik Güvende, Peki Ya Metadata?",
+        "summary": "Uçtan uca şifreleme mesaj içeriğini korurken, kimin kimle, ne zaman konuştuğu gibi metadata bilgileri hâlâ toplanabiliyor. Bu durum, kullanıcı gizliliği için önemli bir açık oluşturuyor.",
+        "link": "#"
+      }
+    ]
+  },
+  "reports": {
+    "label": "Teknik Dokümanlar",
+    "title": "Raporlar & whitepaper'lar",
+    "desc": "Detaylı teknik analizler ve güvenlik değerlendirmeleri.",
+    "items": [
+      {
+        "title": "RCS 3.0 ve E2EE Güvenlik Standartları",
+        "desc": "RCS Universal Profile 3.0 kapsamında MLS protokolünün entegrasyonu, güvenlik analizi ve uyumluluk değerlendirmesi.",
+        "meta": "PDF · v1.0 · Yakında"
+      },
+      {
+        "title": "Mesajlaşma Protokolleri Karşılaştırma Raporu",
+        "desc": "Signal Protocol, MTProto, MLS ve iMessage E2EE protokollerinin teknik karşılaştırması.",
+        "meta": "PDF · v1.0 · Yakında"
+      }
+    ]
+  },
+  "contact": {
+    "label": "İletişim",
+    "title": "Bize ulaşın",
+    "desc": "Güvenlik araştırmacıları ve kurumsal denetim ekipleri için.",
+    "email": {
+      "title": "E-posta",
+      "text": "Genel sorular ve işbirlikleri için.",
+      "link": "info@opene2ee.com"
+    },
+    "github": {
+      "title": "GitHub",
+      "text": "Açık kaynak projelerimiz ve katkıda bulunma.",
+      "link": "github.com/opene2ee-com"
+    },
+    "security": {
+      "title": "Güvenlik Bildirimi",
+      "text": "Güvenlik açıkları için sorumlu ifşa.",
+      "link": "security@opene2ee.com"
+    }
+  },
+  "footer": {
+    "copy": "© 2026 OpenE2EE. MIT Lisansı ile yayımlanmıştır.",
+    "github": "GitHub",
+    "license": "MIT Lisans"
+  }
+}

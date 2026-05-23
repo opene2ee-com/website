@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Rubik:wght@400;500;600&display=swap');
+@import './variables.css';
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--font-rubik);font-size:var(--text-body-lg);font-weight:var(--font-weight-regular);line-height:var(--leading-body-lg);color:var(--color-text-graphite);background-color:var(--color-page-white);overflow-x:hidden}
+
+h1,h2,h3,h4,h5,h6{color:var(--color-text-jet);font-weight:var(--font-weight-semibold)}
+h1{font-family:var(--font-ibm-plex-mono);font-size:var(--text-display);line-height:var(--leading-display);letter-spacing:var(--tracking-display)}
+h2{font-family:var(--font-ibm-plex-mono);font-size:32px;line-height:1.15;letter-spacing:-0.01em}
+h3{font-size:var(--text-heading);line-height:var(--leading-heading)}
+h4{font-size:var(--text-subheading);line-height:var(--leading-subheading)}
+p{margin-bottom:var(--spacing-16);line-height:1.65}
+a{color:var(--color-primary-violet);text-decoration:none;transition:color var(--transition-fast)}
+a:hover{color:var(--color-primary-violet-hover)}
+code,pre{font-family:var(--font-ibm-plex-mono);font-size:var(--text-body);letter-spacing:-0.021em}
+img{max-width:100%;height:auto}
+
+.container{max-width:var(--max-width);margin:0 auto;padding:0 var(--spacing-24)}
+.section{padding:var(--spacing-96) 0}
+.section:first-of-type{padding-top:var(--spacing-72)}
+
+::selection{background-color:rgba(48,48,85,0.12);color:var(--color-text-jet)}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--color-bg-subtle)}
+::-webkit-scrollbar-thumb{background:var(--color-border-ash);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--color-text-fog)}
+
+@media(max-width:768px){
+  h1{font-size:32px}
+  h2{font-size:24px}
+  .section{padding:var(--spacing-64) 0}
+  .container{padding:0 var(--spacing-16)}
+}
+@media(max-width:480px){
+  h1{font-size:26px}
+  h2{font-size:22px}
+}
