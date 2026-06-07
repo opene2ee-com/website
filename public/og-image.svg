@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">OpenE2EE social preview</title>
+  <desc id="desc">A branded OpenE2EE preview card for search and social sharing.</desc>
+  <rect width="1200" height="630" fill="#ffffff"/>
+  <rect x="72" y="72" width="1056" height="486" rx="24" fill="#f8f8fc" stroke="#e8e8f2" stroke-width="2"/>
+  <path d="M72 438H1128" stroke="#e8e8f2" stroke-width="2"/>
+  <g font-family="Consolas, 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace">
+    <text x="112" y="154" font-size="44" font-weight="600" fill="#303055">
+      <tspan fill="#767682">&lt;</tspan>OpenE2EE<tspan fill="#767682"> /&gt;</tspan>
+    </text>
+    <text x="112" y="250" font-family="'Segoe UI', Arial, sans-serif" font-size="52" font-weight="700" fill="#111111">Protocol transparency</text>
+    <text x="112" y="320" font-family="'Segoe UI', Arial, sans-serif" font-size="52" font-weight="700" fill="#111111">E2EE verification</text>
+    <text x="112" y="402" font-size="25" fill="#767682">RCS 3.0, MLS, and end-to-end encryption</text>
+    <text x="112" y="504" font-size="22" fill="#096e72">opene2ee.com</text>
+  </g>
+  <g transform="translate(880 146)">
+    <rect x="0" y="0" width="236" height="236" rx="20" fill="#ffffff" stroke="#e8e8f2" stroke-width="2"/>
+    <path d="M118 54L178 78V124C178 168 148 195 118 210C88 195 58 168 58 124V78L118 54Z" fill="#303055"/>
+    <path d="M96 126L113 143L145 103" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="38" cy="38" r="8" fill="#984e4d"/>
+    <circle cx="66" cy="38" r="8" fill="#ffbd2e"/>
+    <circle cx="94" cy="38" r="8" fill="#096e72"/>
+  </g>
+</svg>
