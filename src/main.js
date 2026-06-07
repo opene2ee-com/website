@@ -1,7 +1,7 @@
 import './styles/base.css';
 import './styles/components.css';
 import './styles/animations.css';
-import { initI18n, t } from './i18n.js';
+import { getCurrentLang, initI18n, t } from './i18n.js';
 import { renderNav, initNav } from './sections/nav.js';
 import { renderHero } from './sections/hero.js';
 import { renderWhy } from './sections/why.js';
@@ -11,14 +11,16 @@ import { renderReports } from './sections/reports.js';
 import { renderContact } from './sections/contact.js';
 import { renderFooter, initFooter } from './sections/footer.js';
 
+const META_LOCALES = {
+  tr: 'tr_TR',
+  en: 'en_US',
+};
+
 function renderApp() {
   const app = document.getElementById('app');
   if (!app) return;
 
-  // Update meta
-  document.title = t('meta.title');
-  const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) metaDesc.setAttribute('content', t('meta.description'));
+  updateDocumentMeta();
 
   app.innerHTML =
     renderNav(renderApp) +
@@ -38,6 +40,25 @@ function renderApp() {
 
   // Scroll reveal
   initScrollReveal();
+}
+
+function setMetaContent(selector, content) {
+  const meta = document.querySelector(selector);
+  if (meta) meta.setAttribute('content', content);
+}
+
+function updateDocumentMeta() {
+  const title = t('meta.title');
+  const description = t('meta.description');
+  const locale = META_LOCALES[getCurrentLang()] || META_LOCALES.tr;
+
+  document.title = title;
+  setMetaContent('meta[name="description"]', description);
+  setMetaContent('meta[property="og:title"]', title);
+  setMetaContent('meta[property="og:description"]', description);
+  setMetaContent('meta[property="og:locale"]', locale);
+  setMetaContent('meta[name="twitter:title"]', title);
+  setMetaContent('meta[name="twitter:description"]', description);
 }
 
 function initScrollReveal() {
